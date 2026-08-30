@@ -1,0 +1,15 @@
+{
+  "name": "glido",
+  "description": "Private, local analytics and coaching for Codex sessions.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Raghav Jindal"
+  },
+  "license": "MIT",
+  "keywords": [
+    "codex",
+    "analytics",
+    "developer-productivity",
+    "agent-skills"
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "name": "glido",
+  "version": "0.1.0",
+  "description": "Review Codex sessions, improve prompts, right-size models, and save tokens",
+  "type": "module",
+  "bin": {
+    "glido": "./bin/glido.js"
+  },
+  "files": [
+    ".codex-plugin",
+    ".claude-plugin",
+    "bin",
+    "src",
+    "skills",
+    "README.md",
+    "PRIVACY.md",
+    "SECURITY.md",
+    "TERMS.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test",
+    "start": "node ./bin/glido.js",
+    "pack:check": "npm pack --dry-run"
+  },
+  "keywords": [
+    "codex",
+    "openai",
+    "cli",
+    "analytics",
+    "tokens",
+    "developer-tools",
+    "agent-skills"
+  ],
+  "author": "Raghav Jindal",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HiberNuts/glido.git"
+  },
+  "bugs": {
+    "url": "https://github.com/HiberNuts/glido/issues"
+  },
+  "homepage": "https://github.com/HiberNuts/glido#readme",
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

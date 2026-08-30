@@ -1,0 +1,4 @@
+interface:
+  display_name: "Glido"
+  short_description: "Coach Codex prompts, models, and weekly usage"
+  default_prompt: "Use $glido to coach my last seven days of Codex prompts and show where a smaller model could preserve my weekly allowance."

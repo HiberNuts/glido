@@ -1,0 +1,33 @@
+{
+  "name": "glido",
+  "version": "0.2.0",
+  "description": "Private Codex prompt coaching, model routing, and weekly progress.",
+  "author": {
+    "name": "Raghav Jindal"
+  },
+  "license": "MIT",
+  "keywords": [
+    "codex",
+    "analytics",
+    "developer-productivity",
+    "agent-skills"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Glido",
+    "shortDescription": "Improve Codex prompts, model choice, and usage.",
+    "longDescription": "Glido privately audits local Codex sessions, uses the user's Codex login for opt-in prompt coaching, recommends the least expensive sufficient model, estimates credit and weekly-allowance savings, and creates a light localhost progress dashboard.",
+    "developerName": "Raghav Jindal",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Read"
+    ],
+    "defaultPrompt": [
+      "Coach my Codex prompts from the last seven days.",
+      "Show which tasks could have used a smaller model.",
+      "Estimate how much weekly allowance model routing could preserve."
+    ],
+    "brandColor": "#16A34A"
+  }
+}

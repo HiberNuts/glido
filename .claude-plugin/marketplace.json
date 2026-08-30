@@ -1,0 +1,15 @@
+{
+  "name": "glido-tools",
+  "owner": {
+    "name": "Raghav Jindal"
+  },
+  "description": "Private local analytics for coding-agent sessions.",
+  "plugins": [
+    {
+      "name": "glido",
+      "source": "./",
+      "description": "Analyze local Codex sessions and recommend evidence-backed improvements.",
+      "version": "0.1.0"
+    }
+  ]
+}
