@@ -121,14 +121,22 @@ export async function run(argv) {
   if (options.command === 'coach') {
     if (!options.yes) await confirmDeepAudit()
     const since = options.since ?? parseSince('7d')
-    if (!options.json && process.stderr.isTTY) process.stderr.write('Redacting and sampling local prompts…')
+    if (!options.json && process.stderr.isTTY) process.stderr.write('Preparing your private review…')
     const scanned = await scanSessions({ directory: options.path, since, project: options.project, session: options.session, includePrompts: true, redactPrompt })
     if (!options.json && process.stderr.isTTY) process.stderr.write('\r\x1b[2K')
     if (!scanned.sessions.length) throw new Error('No matching Codex sessions found.')
     const analysis = analyzeSessions(scanned.sessions)
     const bundle = buildCoachingBundle(scanned.sessions, analysis, { maxTasks: options.maxTasks })
-    if (!options.json) console.error(`Asking ${options.model ?? 'gpt-5.6-terra'} to coach ${bundle.tasks.length} locally redacted task samples…`)
-    const coaching = await generateCodexCoaching(bundle, { model: options.model ?? undefined, humor: options.humor })
+    const model = options.model ?? 'gpt-5.6-terra'
+    if (!options.json) console.log(renderCoachIntro(bundle.tasks.length, model))
+    const stopSpinner = options.json ? null : startSpinner(`Getting a second opinion from ${model}`)
+    let coaching
+    try {
+      coaching = await generateCodexCoaching(bundle, { model: options.model ?? undefined, humor: options.humor })
+    } finally {
+      stopSpinner?.()
+    }
+    if (!options.json) console.log('Building your private dashboard…')
     const windowMs = Date.now() - since
     const previous = await loadPreviousSnapshot({ windowMs })
     const comparison = compareSnapshots(previous, snapshotMetrics(analysis, coaching))
@@ -177,10 +185,33 @@ async function confirmDeepAudit() {
   if (!process.stdin.isTTY) throw new Error('Glido Coach needs explicit consent. Re-run with --yes after reviewing the privacy notice.')
   const prompt = readline.createInterface({ input: process.stdin, output: process.stdout })
   try {
-    const answer = await prompt.question('Glido Coach will read prompt text, redact likely secrets locally, and send selected excerpts to your authenticated Codex account. Continue? [y/N] ')
+    const answer = await prompt.question('\nGlido Coach will read selected prompt text, redact likely secrets locally, then ask your Codex account for advice. Continue? [y/N] ')
     if (!/^y(?:es)?$/i.test(answer.trim())) throw new Error('Coaching audit cancelled.')
   } finally {
     prompt.close()
+  }
+}
+
+function renderCoachIntro(taskCount, model) {
+  const taskLabel = `${taskCount} task sample${taskCount === 1 ? '' : 's'} selected`
+  return `\n╭─ GLIDO COACH · PRIVATE REVIEW ───────────\n│ ✓ ${taskLabel}\n│ ✓ Likely secrets redacted on your computer\n│ ✦ Model: ${model}\n╰──────────────────────────────────────────\n`
+}
+
+function startSpinner(message) {
+  if (!process.stderr.isTTY) {
+    console.error(`${message}…`)
+    return null
+  }
+  const frames = ['◐', '◓', '◑', '◒']
+  const started = Date.now()
+  let index = 0
+  const draw = () => process.stderr.write(`\r${frames[index++ % frames.length]} ${message}…`)
+  draw()
+  const timer = setInterval(draw, 110)
+  return () => {
+    clearInterval(timer)
+    const seconds = Math.max(1, Math.round((Date.now() - started) / 1000))
+    process.stderr.write(`\r✓ Advice ready in ${seconds}s${' '.repeat(Math.max(0, message.length - 12))}\n`)
   }
 }
 
