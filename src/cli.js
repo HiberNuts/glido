@@ -1,6 +1,7 @@
 import fsp from 'node:fs/promises'
 import readline from 'node:readline/promises'
 import { spawn } from 'node:child_process'
+import { createRequire } from 'node:module'
 import { analyzeSessions } from './analyze.js'
 import { generateAiAnalysis } from './ai.js'
 import { buildCoachingBundle, generateCodexCoaching } from './coach.js'
@@ -11,7 +12,8 @@ import { redactPrompt } from './redact.js'
 import { codexSessionsDirectory, findSessionFiles, scanSessions } from './scan.js'
 import { parseSince } from './utils.js'
 
-const VERSION = '0.2.0'
+const require = createRequire(import.meta.url)
+const { version: VERSION } = require('../package.json')
 
 function help() {
   return `
