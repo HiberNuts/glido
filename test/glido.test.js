@@ -92,6 +92,7 @@ test('parses CLI options', () => {
   assert.ok(options.since < Date.now())
   assert.equal(parseArgs([]).command, 'coach')
   assert.equal(parseArgs(['report']).command, 'report')
+  assert.equal(parseArgs(['update']).command, 'update')
 })
 
 test('writes and serves a private light dashboard', async () => {

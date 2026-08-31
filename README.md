@@ -28,6 +28,7 @@ glido dashboard              # Open your latest local dashboard
 glido-coach report --since 7d # Run the private report only
 glido sessions               # See the sessions Glido found
 glido doctor                 # Check that session discovery works
+glido update                 # Update a global install
 ```
 
 ## Use Glido inside Codex

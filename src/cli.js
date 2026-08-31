@@ -1,5 +1,6 @@
 import fsp from 'node:fs/promises'
 import readline from 'node:readline/promises'
+import { spawn } from 'node:child_process'
 import { analyzeSessions } from './analyze.js'
 import { generateAiAnalysis } from './ai.js'
 import { buildCoachingBundle, generateCodexCoaching } from './coach.js'
@@ -24,6 +25,7 @@ Usage:
   glido dashboard [options]    Reopen the latest private localhost report
   glido fix [options]          Preview reusable agent instructions
   glido doctor [options]       Check local setup
+  glido update                 Update a global install to the latest release
 
 Options:
   --since <24h|7d|4w|all>       Limit sessions by age (default: all)
@@ -114,6 +116,10 @@ export async function run(argv) {
     const files = access ? await findSessionFiles(directory) : []
     console.log(JSON.stringify({ ok: access && files.length > 0, directory, sessionFiles: files.length, node: process.version, aiReady: Boolean(process.env.OPENAI_API_KEY) }, null, 2))
     if (!access || !files.length) process.exitCode = 1
+    return
+  }
+  if (options.command === 'update') {
+    await updateGlido()
     return
   }
   if (!['analyze', 'report', 'sessions', 'fix', 'coach'].includes(options.command)) throw new Error(`Unknown command: ${options.command}`)
@@ -213,6 +219,17 @@ function startSpinner(message) {
     const seconds = Math.max(1, Math.round((Date.now() - started) / 1000))
     process.stderr.write(`\r✓ Advice ready in ${seconds}s${' '.repeat(Math.max(0, message.length - 12))}\n`)
   }
+}
+
+async function updateGlido() {
+  const command = process.platform === 'win32' ? 'npm.cmd' : 'npm'
+  console.log('Updating Glido to the latest release…')
+  await new Promise((resolve, reject) => {
+    const child = spawn(command, ['install', '--global', 'glido-coach@latest'], { stdio: 'inherit' })
+    child.once('error', reject)
+    child.once('close', (code) => code === 0 ? resolve() : reject(new Error(`npm update failed with exit code ${code}.`)))
+  })
+  console.log('✓ Glido is up to date. Run `glido --version` to check it.')
 }
 
 async function keepDashboardOpen(report, options) {
