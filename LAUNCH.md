@@ -33,8 +33,8 @@ npm publish --access public
 Users can then run:
 
 ```bash
-npx glido --since 7d
-npx glido coach --since 7d
+npx glido-coach --since 7d
+npx glido-coach coach --since 7d
 ```
 
 Before publishing, confirm that `npm view glido` still returns a not-found response. An npm name is not reserved until the first successful publish.

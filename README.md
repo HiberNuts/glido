@@ -7,7 +7,7 @@ Glido reviews your local Codex sessions, scores your prompting habits, and sugge
 ## Start in one command
 
 ```bash
-npx glido coach --since 7d
+npx glido-coach coach --since 7d
 ```
 
 Glido opens a private dashboard on your computer. You get:

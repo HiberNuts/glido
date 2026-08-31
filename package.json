@@ -1,5 +1,5 @@
 {
-  "name": "glido",
+  "name": "glido-coach",
   "version": "0.1.2",
   "description": "Review Codex sessions, improve prompts, right-size models, and save tokens",
   "type": "module",
