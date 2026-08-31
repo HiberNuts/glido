@@ -90,6 +90,8 @@ test('parses CLI options', () => {
   assert.equal(options.color, false)
   assert.equal(options.humor, 'off')
   assert.ok(options.since < Date.now())
+  assert.equal(parseArgs([]).command, 'coach')
+  assert.equal(parseArgs(['report']).command, 'report')
 })
 
 test('writes and serves a private light dashboard', async () => {

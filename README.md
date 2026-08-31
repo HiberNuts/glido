@@ -7,7 +7,7 @@ Glido reviews your local Codex sessions, scores your prompting habits, and sugge
 ## Start in one command
 
 ```bash
-npx glido-coach coach --since 7d
+npx glido-coach
 ```
 
 Glido opens a private dashboard on your computer. You get:
@@ -21,11 +21,11 @@ Glido opens a private dashboard on your computer. You get:
 
 Your session data stays on your computer. The normal report needs no API key and makes no network request.
 
-`coach` is optional. It uses your existing Codex CLI login to review a locally redacted sample and give tailored advice. Glido has no backend and needs no separate Glido account.
+The default experience uses your existing Codex CLI login to review a locally redacted sample and give tailored advice. It asks for consent first. Glido has no backend and needs no separate Glido account.
 
 ```bash
 glido dashboard              # Open your latest local dashboard
-glido --since 7d             # Run the private report only
+glido-coach report --since 7d # Run the private report only
 glido sessions               # See the sessions Glido found
 glido doctor                 # Check that session discovery works
 ```

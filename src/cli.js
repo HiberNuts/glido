@@ -17,7 +17,8 @@ function help() {
 Glido — learn from every session and waste fewer tokens
 
 Usage:
-  glido [analyze] [options]     Analyze all Codex sessions
+  glido [options]               Private AI coaching using your Codex login
+  glido report [options]        Local-only session report (no AI)
   glido sessions [options]     List the 20 most recent sessions
   glido coach [options]        AI prompt + model audit using your Codex login
   glido dashboard [options]    Reopen the latest private localhost report
@@ -52,7 +53,7 @@ Privacy:
 
 function parseArgs(argv) {
   const args = [...argv]
-  const options = { command: 'analyze', since: null, project: null, session: null, path: null, target: 'agents', json: false, ai: false, model: null, color: process.stdout.isTTY, yes: false, humor: 'light', maxTasks: 48, open: true, port: 0 }
+  const options = { command: 'coach', since: null, project: null, session: null, path: null, target: 'agents', json: false, ai: false, model: null, color: process.stdout.isTTY, yes: false, humor: 'light', maxTasks: 48, open: true, port: 0 }
   if (args[0] && !args[0].startsWith('-')) options.command = args.shift()
   for (let index = 0; index < args.length; index += 1) {
     const arg = args[index]
@@ -115,7 +116,7 @@ export async function run(argv) {
     if (!access || !files.length) process.exitCode = 1
     return
   }
-  if (!['analyze', 'sessions', 'fix', 'coach'].includes(options.command)) throw new Error(`Unknown command: ${options.command}`)
+  if (!['analyze', 'report', 'sessions', 'fix', 'coach'].includes(options.command)) throw new Error(`Unknown command: ${options.command}`)
 
   if (options.command === 'coach') {
     if (!options.yes) await confirmDeepAudit()
@@ -173,7 +174,7 @@ export async function run(argv) {
 export { parseArgs }
 
 async function confirmDeepAudit() {
-  if (!process.stdin.isTTY) throw new Error('`glido coach` needs explicit consent. Re-run with --yes after reviewing the privacy notice.')
+  if (!process.stdin.isTTY) throw new Error('Glido Coach needs explicit consent. Re-run with --yes after reviewing the privacy notice.')
   const prompt = readline.createInterface({ input: process.stdin, output: process.stdout })
   try {
     const answer = await prompt.question('Glido Coach will read prompt text, redact likely secrets locally, and send selected excerpts to your authenticated Codex account. Continue? [y/N] ')
