@@ -1,10 +1,13 @@
 {
   "name": "glido",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Private Codex prompt coaching, model routing, and weekly progress.",
   "author": {
-    "name": "Raghav Jindal"
+    "name": "Raghav Jindal",
+    "url": "https://github.com/HiberNuts"
   },
+  "homepage": "https://hibernuts.github.io/glido/",
+  "repository": "https://github.com/HiberNuts/glido",
   "license": "MIT",
   "keywords": [
     "codex",
@@ -19,6 +22,9 @@
     "longDescription": "Glido privately audits local Codex sessions, uses the user's Codex login for opt-in prompt coaching, recommends the least expensive sufficient model, estimates credit and weekly-allowance savings, and creates a light localhost progress dashboard.",
     "developerName": "Raghav Jindal",
     "category": "Productivity",
+    "websiteURL": "https://hibernuts.github.io/glido/",
+    "privacyPolicyURL": "https://github.com/HiberNuts/glido/blob/main/PRIVACY.md",
+    "termsOfServiceURL": "https://github.com/HiberNuts/glido/blob/main/TERMS.md",
     "capabilities": [
       "Interactive",
       "Read"

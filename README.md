@@ -85,6 +85,23 @@ Savings use the official ChatGPT/Codex credit rate card. Glido keeps observed to
 
 The shared Agent Skill is in `skills/glido`. It runs the bundled deterministic CLI and turns its JSON output into a short coaching response.
 
+### Install Glido in Codex
+
+The marketplace bundles the same local analyzer, so this route does not need a separately hosted backend or an npm install:
+
+```bash
+codex plugin marketplace add HiberNuts/glido --ref main
+codex plugin add glido@glido
+```
+
+Start a new Codex session, then invoke Glido explicitly:
+
+```text
+$glido review my last seven days and show the three biggest improvements
+```
+
+To receive a later plugin update, run `codex plugin marketplace upgrade glido`, reinstall `glido@glido`, and start a new Codex session.
+
 Test with Claude Code:
 
 ```bash

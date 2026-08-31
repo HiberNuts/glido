@@ -1,6 +1,6 @@
 {
   "name": "glido",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Review Codex sessions, improve prompts, right-size models, and save tokens",
   "type": "module",
   "bin": {
@@ -41,7 +41,7 @@
   "bugs": {
     "url": "https://github.com/HiberNuts/glido/issues"
   },
-  "homepage": "https://github.com/HiberNuts/glido#readme",
+  "homepage": "https://hibernuts.github.io/glido/",
   "engines": {
     "node": ">=20"
   },

@@ -1,0 +1,20 @@
+{
+  "name": "glido",
+  "interface": {
+    "displayName": "Glido"
+  },
+  "plugins": [
+    {
+      "name": "glido",
+      "source": {
+        "source": "local",
+        "path": "./plugins/glido"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
