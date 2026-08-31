@@ -41,7 +41,7 @@
   "bugs": {
     "url": "https://github.com/HiberNuts/glido/issues"
   },
-  "homepage": "https://hibernuts.github.io/glido/",
+  "homepage": "https://www.raghav.works/glido",
   "engines": {
     "node": ">=20"
   },
