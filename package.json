@@ -4,7 +4,7 @@
   "description": "Review Codex sessions, improve prompts, right-size models, and save tokens",
   "type": "module",
   "bin": {
-    "glido": "./bin/glido.js"
+    "glido": "bin/glido.js"
   },
   "files": [
     ".codex-plugin",
