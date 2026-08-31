@@ -14,15 +14,16 @@
       .brand { color: var(--green); font-size: 22px; font-weight: 800; letter-spacing: -.04em; }
       a { color: inherit; }
       .button { display: inline-block; padding: 12px 18px; border: 1px solid var(--ink); border-radius: 999px; background: var(--ink); color: white; font-weight: 700; text-decoration: none; }
-      .hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: 64px; align-items: center; min-height: 620px; }
+      .hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: 64px; align-items: start; min-height: 620px; padding: 145px 0 110px; }
       h1 { max-width: 650px; margin: 0 0 22px; font-size: clamp(48px, 7vw, 84px); line-height: .98; letter-spacing: -.07em; }
-      h1 em { color: var(--green); font-style: normal; }
+      .headline-score { display: inline-block; margin-left: .12em; color: var(--green); }
       .lead { max-width: 600px; color: var(--muted); font-size: 22px; }
       .command { display: inline-flex; gap: 12px; align-items: center; margin-top: 22px; padding: 13px 17px; border: 1px solid var(--line); border-radius: 12px; background: white; font: 600 15px ui-monospace, SFMono-Regular, Menlo, monospace; }
       .score { padding: 34px; border: 1px solid var(--line); border-radius: 30px; background: white; box-shadow: 0 18px 50px rgba(23, 32, 25, .08); }
       .eyebrow { color: var(--muted); font-size: 12px; font-weight: 800; letter-spacing: .12em; }
-      .number { margin: 9px 0 0; color: var(--green); font-size: 118px; font-weight: 850; letter-spacing: -.1em; line-height: .85; }
-      .number span { color: var(--muted); font-size: 28px; letter-spacing: -.04em; }
+      .number { display: flex; align-items: baseline; gap: 13px; margin: 13px 0 0; line-height: 1; }
+      .number strong { color: var(--green); font-size: 118px; font-weight: 850; letter-spacing: -.1em; line-height: .85; }
+      .number span { color: var(--muted); font-size: 28px; font-weight: 750; letter-spacing: -.04em; }
       .verdict { margin: 22px 0 30px; color: var(--green); font-size: 22px; font-weight: 800; }
       .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
       .stat { padding: 17px; border-radius: 16px; background: #edf4ee; }
@@ -38,22 +39,22 @@
       .flow span { padding: 12px 16px; border: 1px solid var(--line); border-radius: 999px; background: white; }
       .flow b { color: var(--green); }
       footer { display: flex; justify-content: space-between; gap: 20px; padding: 36px 0 55px; color: var(--muted); font-size: 14px; }
-      @media (max-width: 760px) { .hero { grid-template-columns: 1fr; gap: 45px; padding: 50px 0 85px; } .cards { grid-template-columns: 1fr; } .number { font-size: 96px; } footer { display: block; } }
+      @media (max-width: 760px) { .hero { grid-template-columns: 1fr; gap: 45px; min-height: auto; padding: 70px 0 85px; } .cards { grid-template-columns: 1fr; } .number strong { font-size: 96px; } footer { display: block; } }
     </style>
   </head>
   <body>
     <main>
-      <nav><div class="brand">glido</div><a href="https://github.com/HiberNuts/glido">GitHub ↗</a></nav>
+      <nav><div class="brand">glido</div><div><a href="https://www.raghav.works">Portfolio</a> · <a href="https://github.com/HiberNuts/glido">GitHub ↗</a></div></nav>
       <div class="hero">
         <div>
-          <h1>Your AI coding habits, <em>scored.</em></h1>
+          <h1>Your AI coding<br>habits,<span class="headline-score">scored.</span></h1>
           <p class="lead">Glido reviews your Codex sessions and shows you how to write better prompts, choose the right model, and waste fewer tokens.</p>
           <a class="button" href="https://github.com/HiberNuts/glido">Get Glido on GitHub</a>
           <div class="command">npx glido coach --since 7d</div>
         </div>
         <aside class="score">
           <div class="eyebrow">YOUR PROMPT SCORE</div>
-          <div class="number">43<span>/100</span></div>
+          <div class="number"><strong>43</strong><span>/100</span></div>
           <div class="verdict">Clear prompts. A few gaps.</div>
           <div class="stats"><div class="stat"><strong>23.6%</strong><small>weekly capacity to save</small></div><div class="stat"><strong>24</strong><small>model downshifts found</small></div></div>
         </aside>
