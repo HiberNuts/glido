@@ -1,6 +1,6 @@
 {
   "name": "glido",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Review Codex sessions, improve prompts, right-size models, and save tokens",
   "type": "module",
   "bin": {

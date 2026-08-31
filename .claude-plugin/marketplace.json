@@ -9,7 +9,7 @@
       "name": "glido",
       "source": "./",
       "description": "Analyze local Codex sessions and recommend evidence-backed improvements.",
-      "version": "0.1.0"
+      "version": "0.1.1"
     }
   ]
 }
