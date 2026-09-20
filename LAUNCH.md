@@ -5,13 +5,13 @@
 - [x] Choose the public product name: Glido.
 - [x] Prepare a dedicated public GitHub repository and package metadata.
 - [ ] Publish the npm package from the verified publisher account.
-- [ ] Add public support, privacy, and terms URLs to the launch site.
+- [x] Add public support, privacy, and terms URLs to the launch site.
 - [ ] Record a real terminal + localhost demo using intentionally shareable prompts.
 - [ ] Submit the Codex skill/plugin after the npm command is live.
 
 ## 1. GitHub beta
 
-Push the repository, tag `v0.1.0`, and create a GitHub release. The repository is the source for public review and agent-skill distribution.
+Push the repository, tag `v0.5.0`, and create a GitHub release. The repository is the source for public review and agent-skill distribution.
 
 ## 2. npm CLI
 
@@ -35,6 +35,7 @@ Users can then run:
 ```bash
 npx glido-coach
 npx glido-coach report --since 7d
+npx glido-coach agent "Prepare this project for release" --done "all release checks pass"
 ```
 
 Before publishing, confirm that `npm view glido` still returns a not-found response. An npm name is not reserved until the first successful publish.
@@ -57,3 +58,23 @@ Then submit the GitHub repository through the Claude community-plugin workflow.
 ## Initial launch message
 
 > I let Glido audit my last seven days of Codex. It scored my prompt quality, found tasks where Terra or Luna could have replaced Sol, estimated how much weekly capacity I could preserve, and rewrote the prompts causing extra turns. The scanner and dashboard run locally. The wit is optional; the math is not.
+
+## Router launch
+
+Position Glido as the performance coach for Codex, not a Codex replacement.
+
+**Hook:** Stop using Sol for Luna-sized work.
+
+**Demo command:**
+
+```bash
+npx glido-coach
+```
+
+Record a 20–30 second terminal video:
+
+1. Run the command and type one natural prompt into the Glido launcher.
+2. Reveal `gpt-5.6-luna · low effort` and the short explanation.
+3. Show the improved prompt and model override controls.
+4. Press Enter and reveal the real Codex CLI opening.
+5. End on: “One prompt. The right Codex.” and the npm command.

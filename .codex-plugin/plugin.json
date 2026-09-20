@@ -1,7 +1,7 @@
 {
   "name": "glido",
-  "version": "0.1.2",
-  "description": "Private Codex prompt coaching, model routing, and weekly progress.",
+  "version": "0.5.0",
+  "description": "Private Codex prompt routing, multi-agent goals, and weekly progress.",
   "author": {
     "name": "Raghav Jindal",
     "url": "https://github.com/HiberNuts"
@@ -18,8 +18,8 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Glido",
-    "shortDescription": "Improve Codex prompts, model choice, and usage.",
-    "longDescription": "Glido privately audits local Codex sessions, uses the user's Codex login for opt-in prompt coaching, recommends the least expensive sufficient model, estimates credit and weekly-allowance savings, and creates a light localhost progress dashboard.",
+    "shortDescription": "Route Codex work or run a visible agent team.",
+    "longDescription": "Glido privately routes prompts, runs durable goal-driven Codex agent teams with live subagent status, and audits local sessions for coaching and usage improvements.",
     "developerName": "Raghav Jindal",
     "category": "Productivity",
     "websiteURL": "https://hibernuts.github.io/glido/",
@@ -27,10 +27,12 @@
     "termsOfServiceURL": "https://github.com/HiberNuts/glido/blob/main/TERMS.md",
     "capabilities": [
       "Interactive",
-      "Read"
+      "Read",
+      "Write"
     ],
     "defaultPrompt": [
       "Coach my Codex prompts from the last seven days.",
+      "Help me launch an agent team for a release goal.",
       "Show which tasks could have used a smaller model.",
       "Estimate how much weekly allowance model routing could preserve."
     ],

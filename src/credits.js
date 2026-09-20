@@ -1,8 +1,9 @@
 const MILLION = 1_000_000
 
-// OpenAI ChatGPT/Codex credit rate card, checked 2026-08-30.
+// OpenAI ChatGPT/Codex credit rate card, checked 2026-09-15.
 // Source: https://learn.chatgpt.com/docs/pricing
 export const CREDIT_RATE_CARD = Object.freeze({
+  'gpt-6-astra': { input: 250, cachedInput: 25, output: 1250 },
   'gpt-5.6-sol': { input: 100, cachedInput: 10, output: 500 },
   'gpt-5.6-terra': { input: 50, cachedInput: 5, output: 300 },
   'gpt-5.6-luna': { input: 5, cachedInput: 0.5, output: 30 },
@@ -12,13 +13,14 @@ export const CREDIT_RATE_CARD = Object.freeze({
 })
 
 export const RATE_CARD_META = Object.freeze({
-  checkedAt: '2026-08-30',
+  checkedAt: '2026-09-15',
   source: 'https://learn.chatgpt.com/docs/pricing',
 })
 
 export function normalizeModel(model) {
   const value = String(model ?? '').toLowerCase().trim()
   if (!value) return null
+  if (value.includes('6-astra')) return 'gpt-6-astra'
   if (value.includes('5.6-sol')) return 'gpt-5.6-sol'
   if (value.includes('5.6-terra')) return 'gpt-5.6-terra'
   if (value.includes('5.6-luna')) return 'gpt-5.6-luna'

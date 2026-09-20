@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Glido reviews your Codex sessions to improve prompts, right-size models, and waste fewer tokens.">
-    <title>Glido · Learn from every session</title>
+    <meta name="description" content="Glido routes Codex tasks, improves prompts, passes reference images, and coordinates visible agent teams.">
+    <title>Glido · The performance coach for Codex</title>
     <style>
       :root { color-scheme: light; --ink: #172019; --muted: #68726b; --line: #dce3dc; --green: #187247; --lime: #e5f57b; --soft: #f7faf6; }
       * { box-sizing: border-box; }
@@ -38,8 +38,13 @@
       .flow { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 30px; font-weight: 800; }
       .flow span { padding: 12px 16px; border: 1px solid var(--line); border-radius: 999px; background: white; }
       .flow b { color: var(--green); }
+      .router-demo { display: grid; grid-template-columns: .8fr 1.2fr; gap: 54px; align-items: center; }
+      .route-panel { overflow: hidden; border: 1px solid var(--line); border-radius: 26px; background: white; box-shadow: 0 18px 50px rgba(23, 32, 25, .07); }
+      .route-panel { margin: 0; }
+      .terminal-shot { display: block; width: 100%; height: auto; }
+      .route-panel figcaption { padding: 14px 18px; color: var(--muted); font-size: 14px; font-weight: 700; }
       footer { display: flex; justify-content: space-between; gap: 20px; padding: 36px 0 55px; color: var(--muted); font-size: 14px; }
-      @media (max-width: 760px) { .hero { grid-template-columns: 1fr; gap: 45px; min-height: auto; padding: 70px 0 85px; } .cards { grid-template-columns: 1fr; } .number strong { font-size: 96px; } footer { display: block; } }
+      @media (max-width: 760px) { .hero, .router-demo { grid-template-columns: 1fr; gap: 45px; } .hero { min-height: auto; padding: 70px 0 85px; } .cards { grid-template-columns: 1fr; } .number strong { font-size: 96px; } footer { display: block; } }
     </style>
   </head>
   <body>
@@ -47,8 +52,8 @@
       <nav><div class="brand">glido</div><div><a href="https://www.raghav.works">Portfolio</a> · <a href="https://github.com/HiberNuts/glido">GitHub ↗</a></div></nav>
       <div class="hero">
         <div>
-          <h1>Your AI coding<br>habits,<span class="headline-score">scored.</span></h1>
-          <p class="lead">Glido reviews your Codex sessions and shows you how to write better prompts, choose the right model, and waste fewer tokens.</p>
+          <h1>The right Codex run.<span class="headline-score">Every goal.</span></h1>
+          <p class="lead">Glido improves a prompt, routes it to the right model, and passes reference images to Codex. For bigger goals, it launches a visible master agent with a coordinated Codex team.</p>
           <a class="button" href="https://github.com/HiberNuts/glido">Get Glido on GitHub</a>
           <div class="command">npx glido-coach</div>
         </div>
@@ -59,6 +64,32 @@
           <div class="stats"><div class="stat"><strong>23.6%</strong><small>weekly capacity to save</small></div><div class="stat"><strong>24</strong><small>model downshifts found</small></div></div>
         </aside>
       </div>
+      <section class="router-demo">
+        <div>
+          <h2>Bring the screenshot, not just the description.</h2>
+          <p class="lead">Type the task naturally and attach one or more references. Glido routes the work locally, explains the decision, and lets you review the prompt and image filenames before launch.</p>
+        </div>
+        <figure class="route-panel">
+          <img class="terminal-shot" src="./glido-router-demo.png" alt="Glido routing a task to GPT-5.6 Luna and showing the attached reference image before launch.">
+          <figcaption>A real local preview. Nothing is sent until you approve it.</figcaption>
+        </figure>
+      </section>
+      <section class="router-demo">
+        <div>
+          <h2>Then Glido gets out of the way.</h2>
+          <p class="lead">Approve the run and Glido launches a real Codex session in the same terminal with the selected model, the prepared prompt, and any approved image attachments.</p>
+        </div>
+        <figure class="route-panel">
+          <img class="terminal-shot" src="./glido-codex-handoff.png" alt="OpenAI Codex running a task launched by Glido.">
+          <figcaption>A real handoff: Glido prepares the run; Codex does the work.</figcaption>
+        </figure>
+      </section>
+      <section>
+        <h2>One goal. A coordinated Codex team.</h2>
+        <p class="lead">Agent mode turns a definition of done into a master plan, bounded subagent work, integration, and verification. See every worker's task and current activity, then press its number to open a focused live activity view.</p>
+        <div class="flow"><span>Your goal</span><b>→</b><span>Master plan</span><b>→</b><span>Native subagents</span><b>→</b><span>Integrated checks</span></div>
+        <div class="command">glido agent "Implement this design" --image ./reference.png --done "all checks pass"</div>
+      </section>
       <section>
         <h2>Learn from every session. Waste fewer tokens.</h2>
         <p class="lead">Glido gives you one simple score, three clear fixes, and a private dashboard you can share on X.</p>
@@ -76,12 +107,12 @@
       <section>
         <h2>Use it your way.</h2>
         <div class="cards">
-          <article class="card"><h3>CLI</h3><p>Run <code>npx glido-coach</code> for your private coaching review.</p></article>
+          <article class="card"><h3>CLI</h3><p>Run <code>npx glido-coach@latest</code> to route a task, keep follow-ups routed with <code>glido chat</code>, attach images, or start an agent team. First run checks Codex installation and sign-in for you.</p></article>
           <article class="card"><h3>Codex skill</h3><p>Install the Glido plugin, start a new Codex session, then ask <code>$glido</code> to review your week.</p></article>
           <article class="card"><h3>Share Card</h3><p>Download a clean score card and open an X post with one click. Your prompts never appear on it.</p></article>
         </div>
       </section>
-      <footer><span>Glido · Learn from every session. Waste fewer tokens.</span><span><a href="https://github.com/HiberNuts/glido/blob/main/PRIVACY.md">Privacy</a> · <a href="https://github.com/HiberNuts/glido/blob/main/TERMS.md">Terms</a></span></footer>
+      <footer><span>Glido · Learn from every session. Waste fewer tokens.</span><span><a href="https://github.com/HiberNuts/glido/issues">Support</a> · <a href="https://github.com/HiberNuts/glido/blob/main/PRIVACY.md">Privacy</a> · <a href="https://github.com/HiberNuts/glido/blob/main/TERMS.md">Terms</a></span></footer>
     </main>
   </body>
 </html>

@@ -1,6 +1,6 @@
 # Terms of use
 
-These terms are a release template and should be reviewed by the publisher before public distribution.
+These terms govern use of Glido.
 
 Glido is provided as local developer tooling under the MIT License. By installing or using it, you are responsible for deciding whether it is appropriate for your environment and for reviewing its output before changing project instructions, code, or workflows.
 

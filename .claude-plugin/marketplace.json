@@ -8,8 +8,8 @@
     {
       "name": "glido",
       "source": "./",
-      "description": "Analyze local Codex sessions and recommend evidence-backed improvements.",
-      "version": "0.1.2"
+      "description": "Route Codex work, run visible agent teams, and analyze local sessions.",
+      "version": "0.5.0"
     }
   ]
 }

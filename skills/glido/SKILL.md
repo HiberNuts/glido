@@ -1,14 +1,24 @@
 ---
 name: glido
-description: Audit local Codex sessions, improve prompts, right-size models, estimate weekly usage savings, or compare coaching progress. Use for Codex session reviews, token or credit efficiency, prompt coaching, model selection, reliability bottlenecks, and reusable AGENTS.md improvements.
+description: Route new Codex tasks to an appropriate model and effort, or audit local Codex sessions for prompt, token, and reliability improvements. Use for model selection, prompt coaching, weekly progress, session reviews, and reusable AGENTS.md improvements.
 license: MIT
 ---
 
 # Glido
 
-Run the bundled analyzer before making claims about the user's sessions. Use the normal audit for telemetry-only questions and Coach for prompt or model advice.
+Use Router for a new task, the normal audit for telemetry-only questions, and Coach for historical prompt or model advice. Run the bundled analyzer before making claims about the user's sessions.
 
 This workflow requires Node.js 20 or newer and local access to Codex session files.
+
+## Route a new task
+
+When the user asks which model or effort should handle a new coding task, run `glido run "<task>" --dry-run --json`. The router is local and does not save or send the prompt.
+
+Report the model, reasoning effort, confidence, short reason, and improved prompt. Preserve any requested model or effort override. Treat the route as an explainable heuristic, not a guarantee. Do not launch a nested interactive Codex process from inside an existing Codex session; give the user the standalone `glido run` command instead.
+
+## Run an agent team
+
+For a broad goal that benefits from independent exploration, isolated implementation, testing, or review, give the user the standalone command `glido agent "<goal>" --done "<definition of done>"`. Agent mode uses the user's local Codex login, keeps a master responsible for integration, and shows native subagent activity in a private terminal view. Do not launch it from inside an existing Codex session. Use `glido agent --dry-run` to preview the orchestration prompt without starting a session.
 
 ## Telemetry-only audit
 

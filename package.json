@@ -1,7 +1,7 @@
 {
   "name": "glido-coach",
-  "version": "0.2.3",
-  "description": "Review Codex sessions, improve prompts, right-size models, and save tokens",
+  "version": "0.5.0",
+  "description": "Route Codex prompts or run a visible multi-agent Codex team",
   "type": "module",
   "bin": {
     "glido-coach": "bin/glido.js",
@@ -29,6 +29,7 @@
     "openai",
     "cli",
     "analytics",
+    "model-router",
     "tokens",
     "developer-tools",
     "agent-skills"

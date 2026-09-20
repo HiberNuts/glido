@@ -1,7 +1,7 @@
 {
   "name": "glido",
-  "description": "Private, local analytics and coaching for Codex sessions.",
-  "version": "0.1.2",
+  "description": "Private Codex routing, multi-agent goals, and session coaching.",
+  "version": "0.5.0",
   "author": {
     "name": "Raghav Jindal"
   },
