@@ -4,8 +4,8 @@ const MODELS = ['gpt-5.6-luna', 'gpt-5.6-terra', 'gpt-5.6-sol', 'gpt-6-astra']
 const EFFORTS = ['low', 'medium', 'high', 'xhigh', 'max']
 
 const PATTERNS = {
-  mechanical: /\b(?:copy|wording|typo|readme|documentation|docs|format|lint|rename|comment|label|placeholder|alignment|spacing|padding|margin|colour|color|font|icon)\b/i,
-  contentOnly: /\b(?:copy|wording|heading|headline|text|label|placeholder|description|font|color|colour|spacing|alignment)\b/i,
+  mechanical: /\b(?:copy|wording|typo|readme|documentation|docs|format|lint|rename|comment|label|placeholder|title|alignment|spacing|padding|margin|colour|color|font|icon)\b/i,
+  contentOnly: /\b(?:copy|wording|heading|headline|title|text|label|placeholder|description|font|color|colour|spacing|alignment)\b/i,
   readOnly: /\b(?:explain|summari[sz]e|describe|list|show|identify|what does|how does)\b/i,
   qualitySensitive: /\b(?:accessibility|design system|reusable .{0,20}component|public api|cross-platform|backwards compatibility)\b/i,
   focused: /\b(?:one|single|small|tiny|focused|contained|specific|only|this (?:file|component|function|test|page|endpoint|command))\b/i,
@@ -13,8 +13,8 @@ const PATTERNS = {
   broad: /\b(?:architecture|architect|redesign|rewrite|repo[- ]wide|entire (?:app|codebase|system)|multiple services|distributed|migration|migrate|scalability|end[- ]to[- ]end)\b/i,
   investigation: /\b(?:debug|diagnose|investigate|root cause|flaky|intermittent|why does|find out)\b/i,
   deepReasoning: /\b(?:race condition|concurrency|deadlock|memory leak|performance bottleneck|architecture|distributed|algorithm|formal proof|optimi[sz]ation)\b/i,
-  sensitiveDomain: /\b(?:payment|stripe|billing|financial|bank|transaction|auth|authentication|authorization|permission|credential|secret|encryption|security|vulnerability|production data|compliance|privacy)\b/i,
-  sensitiveLogic: /\b(?:logic|flow|processing|webhook|permission|policy|access control|token|session|encryption|validation|migration|migrate|deploy|rollback|rotate|delete)\b/i,
+  sensitiveDomain: /\b(?:payment|stripe|billing|financial|bank|transaction|auth|authentication|authorization|permission|credential|secret|encryption|security|vulnerability|production data|compliance|privacy|pii|personal data|patient|hipaa|gdpr|data protection)\b/i,
+  sensitiveLogic: /\b(?:logic|flow|processing|webhook|permission|policy|access control|token|session|encryption|validation|migration|migrate|deploy|rollback|rotate|delete|redaction|audit|export)\b/i,
   destructive: /\b(?:production|data loss|database migration|migrate|delete|drop|rollback|deployment|deploy|terraform|kubernetes|infrastructure|incident|outage|rotate (?:keys?|credentials?))\b/i,
   verification: /\b(?:tests?|testing|verify|verification|validate|acceptance criteria|done when|success criteria|must pass|expected result)\b/i,
   hardVerification: /\b(?:race condition|flaky|intermittent|security|vulnerability|migration|production|performance|concurrency|data loss|prove correctness|formal proof)\b/i,
@@ -74,7 +74,7 @@ export function scorePrompt(prompt) {
 
   const dimensions = { scope, reasoning, uncertainty, verification, consequence }
   const total = Math.min(12, Object.values(dimensions).reduce((sum, value) => sum + value, 0))
-  const hardSafetyOverride = consequence === 3 && (reasoning >= 2 || scope >= 2)
+  const hardSafetyOverride = consequence === 3
 
   return {
     text,

@@ -281,6 +281,7 @@ test('routes the checked-in release evaluation corpus', () => {
     ['Fix the button alignment on this settings page', 'gpt-5.6-luna', 'low'],
     ['Change the billing page heading', 'gpt-5.6-luna', 'low'],
     ['Fix the authentication button label', 'gpt-5.6-luna', 'low'],
+    ['Change the title on the security page', 'gpt-5.6-luna', 'low'],
     ['Write focused unit tests for this parser', 'gpt-5.6-luna', 'low'],
     ['Explain what this function does', 'gpt-5.6-luna', 'low'],
     ['Add an API endpoint and tests for exporting invoices', 'gpt-5.6-terra', 'medium'],
@@ -292,6 +293,9 @@ test('routes the checked-in release evaluation corpus', () => {
     ['Update payment webhook retry logic and add idempotency tests', 'gpt-5.6-sol', 'high'],
     ['Debug a race condition across distributed payment services and design a safe database migration rollback', 'gpt-5.6-sol', 'high'],
     ['Review the repo-wide architecture migration for data-loss risks', 'gpt-5.6-sol', 'high'],
+    ['Drop table', 'gpt-5.6-sol', 'high'],
+    ['Handle PII redaction', 'gpt-5.6-sol', 'high'],
+    ['Fix HIPAA audit logging', 'gpt-5.6-sol', 'high'],
     ['Exhaustively prove correctness of this distributed payment algorithm; quality over speed', 'gpt-6-astra', 'xhigh'],
   ]
   let highStakesCases = 0

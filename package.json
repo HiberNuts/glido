@@ -1,6 +1,6 @@
 {
   "name": "glido-coach",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Route Codex prompts or run a visible multi-agent Codex team",
   "type": "module",
   "bin": {
