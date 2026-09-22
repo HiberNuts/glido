@@ -1,6 +1,6 @@
 {
   "name": "glido",
-  "version": "0.5.0",
+  "version": "0.5.2",
   "description": "Private Codex prompt routing, multi-agent goals, and weekly progress.",
   "author": {
     "name": "Raghav Jindal",

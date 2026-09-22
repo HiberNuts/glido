@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict'
 import { EventEmitter } from 'node:events'
+import { execFileSync } from 'node:child_process'
 import fsp from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
@@ -21,6 +22,25 @@ import { createAgentRenderer, createAgentView, reduceAgentEvent, renderAgentView
 import { buildMasterPrompt, normalizeDoneCriteria } from '../src/orchestration.js'
 
 const here = path.dirname(fileURLToPath(import.meta.url))
+const projectRoot = path.resolve(here, '..')
+const ROUTING_EVALS = [
+  ['Rename the “Save” button to “Apply changes”.', 'gpt-5.6-luna', 'low'],
+  ['Fix the padding on the profile avatar.', 'gpt-5.6-luna', 'low'],
+  ['Explain what the parseInvoice function does.', 'gpt-5.6-luna', 'low'],
+  ['Write focused unit tests for the date formatter.', 'gpt-5.6-luna', 'low'],
+  ['Add a GET endpoint for listing invoices and cover it with tests.', 'gpt-5.6-terra', 'medium'],
+  ['Add keyboard accessibility to the reusable modal component.', 'gpt-5.6-terra', 'medium'],
+  ['Integrate search into the dashboard and preserve existing filters.', 'gpt-5.6-terra', 'medium'],
+  ['Refactor the billing service to split validation from persistence.', 'gpt-5.6-sol', 'high'],
+  ['Investigate why the image upload sometimes fails.', 'gpt-5.6-terra', 'high'],
+  ['Drop table.', 'gpt-5.6-sol', 'high'],
+  ['Handle PII redaction before exporting user records.', 'gpt-5.6-sol', 'high'],
+  ['Fix HIPAA audit logging for patient-record updates.', 'gpt-5.6-sol', 'high'],
+  ['Update payment webhook retry logic and add idempotency tests.', 'gpt-5.6-sol', 'high'],
+  ['Diagnose a race condition in the distributed order processor and design a safe rollback.', 'gpt-5.6-sol', 'high'],
+  ['Exhaustively prove correctness of this distributed payment algorithm; quality over speed.', 'gpt-6-astra', 'xhigh'],
+  ['Perform a formal proof of the production authorization algorithm and prioritize the highest possible quality.', 'gpt-6-astra', 'xhigh'],
+]
 
 test('parses Codex metrics without retaining content', async () => {
   const session = await parseSessionFile(path.join(here, 'fixture.jsonl'))
@@ -277,29 +297,8 @@ test('accepts a turn completion that arrives before the waiter is attached', asy
 })
 
 test('routes the checked-in release evaluation corpus', () => {
-  const cases = [
-    ['Fix the button alignment on this settings page', 'gpt-5.6-luna', 'low'],
-    ['Change the billing page heading', 'gpt-5.6-luna', 'low'],
-    ['Fix the authentication button label', 'gpt-5.6-luna', 'low'],
-    ['Change the title on the security page', 'gpt-5.6-luna', 'low'],
-    ['Write focused unit tests for this parser', 'gpt-5.6-luna', 'low'],
-    ['Explain what this function does', 'gpt-5.6-luna', 'low'],
-    ['Add an API endpoint and tests for exporting invoices', 'gpt-5.6-terra', 'medium'],
-    ['Integrate a search service into the existing dashboard and add tests', 'gpt-5.6-terra', 'medium'],
-    ['Build a reusable modal component with keyboard accessibility', 'gpt-5.6-terra', 'medium'],
-    ['Refactor the service', 'gpt-5.6-terra', 'high'],
-    ['Make it better', 'gpt-5.6-terra', 'medium'],
-    ['Change authentication logic to prevent privilege escalation and add regression tests', 'gpt-5.6-sol', 'high'],
-    ['Update payment webhook retry logic and add idempotency tests', 'gpt-5.6-sol', 'high'],
-    ['Debug a race condition across distributed payment services and design a safe database migration rollback', 'gpt-5.6-sol', 'high'],
-    ['Review the repo-wide architecture migration for data-loss risks', 'gpt-5.6-sol', 'high'],
-    ['Drop table', 'gpt-5.6-sol', 'high'],
-    ['Handle PII redaction', 'gpt-5.6-sol', 'high'],
-    ['Fix HIPAA audit logging', 'gpt-5.6-sol', 'high'],
-    ['Exhaustively prove correctness of this distributed payment algorithm; quality over speed', 'gpt-6-astra', 'xhigh'],
-  ]
   let highStakesCases = 0
-  for (const [prompt, model, effort] of cases) {
+  for (const [prompt, model, effort] of ROUTING_EVALS) {
     const route = routePrompt(prompt)
     assert.equal(route.model, model, prompt)
     assert.equal(route.effort, effort, prompt)
@@ -316,6 +315,14 @@ test('routes the checked-in release evaluation corpus', () => {
   assert.equal(production.rubric.total, 5)
   assert.equal(routePrompt('Make it better').signals.needsClarification, true)
   assert.equal(routePrompt('Hard task', { model: 'gpt-6-astra', effort: 'max' }).effort, 'max')
+})
+
+test('CLI dry-run matches the routing evaluation corpus', () => {
+  for (const [prompt, model, effort] of ROUTING_EVALS) {
+    const result = JSON.parse(execFileSync(process.execPath, [path.join(projectRoot, 'bin/glido.js'), 'run', prompt, '--dry-run', '--json'], { cwd: projectRoot, encoding: 'utf8' }))
+    assert.equal(result.route.model, model, prompt)
+    assert.equal(result.route.effort, effort, prompt)
+  }
 })
 
 test('refines prompts without changing the original request', () => {

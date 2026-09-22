@@ -9,7 +9,7 @@ const PATTERNS = {
   readOnly: /\b(?:explain|summari[sz]e|describe|list|show|identify|what does|how does)\b/i,
   qualitySensitive: /\b(?:accessibility|design system|reusable .{0,20}component|public api|cross-platform|backwards compatibility)\b/i,
   focused: /\b(?:one|single|small|tiny|focused|contained|specific|only|this (?:file|component|function|test|page|endpoint|command))\b/i,
-  normalFeature: /\b(?:feature|endpoint|api|integration|database|schema|service|workflow|authentication|authorization|state management)\b/i,
+  normalFeature: /\b(?:feature|endpoint|api|integrat(?:e|ion)|database|schema|service|workflow|authentication|authorization|state management)\b/i,
   broad: /\b(?:architecture|architect|redesign|rewrite|repo[- ]wide|entire (?:app|codebase|system)|multiple services|distributed|migration|migrate|scalability|end[- ]to[- ]end)\b/i,
   investigation: /\b(?:debug|diagnose|investigate|root cause|flaky|intermittent|why does|find out)\b/i,
   deepReasoning: /\b(?:race condition|concurrency|deadlock|memory leak|performance bottleneck|architecture|distributed|algorithm|formal proof|optimi[sz]ation)\b/i,
