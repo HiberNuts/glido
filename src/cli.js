@@ -28,9 +28,9 @@ function help() {
 Glido — the smart launcher for Codex
 
 Usage:
-  glido                         Open the smart Codex launcher
-  glido [prompt]                Route a prompt and launch Codex
-  glido run [prompt]            Explicit form of the smart launcher
+  glido                         Start persistent routed chat
+  glido [prompt]                Start persistent routed chat with a task
+  glido run [prompt]            Route once, then open native Codex
   glido chat [prompt]           Keep a routed Codex conversation in Glido
   glido agent [goal]            Run a durable master Codex session with subagents
   glido agent status [run-id]   Show a saved agent run
@@ -134,7 +134,7 @@ function parseArgs(argv) {
   const args = [...argv]
   const promptParts = []
   const commands = new Set(['analyze', 'report', 'sessions', 'fix', 'coach', 'dashboard', 'doctor', 'update', 'run', 'chat', 'agent'])
-  const options = { command: 'run', prompt: '', since: null, project: null, session: null, path: null, cwd: process.cwd(), target: 'agents', json: false, ai: false, model: null, effort: null, dryRun: false, refine: true, color: process.stdout.isTTY, yes: false, humor: 'light', maxTasks: 48, maxAgents: 3, done: null, images: [], runId: null, agentAction: 'start', open: true, port: 0 }
+  const options = { command: 'chat', prompt: '', since: null, project: null, session: null, path: null, cwd: process.cwd(), target: 'agents', json: false, ai: false, model: null, effort: null, dryRun: false, refine: true, color: process.stdout.isTTY, yes: false, humor: 'light', maxTasks: 48, maxAgents: 3, done: null, images: [], runId: null, agentAction: 'start', open: true, port: 0 }
   if (args[0] && !args[0].startsWith('-')) {
     const first = args.shift()
     if (commands.has(first)) options.command = first

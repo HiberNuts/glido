@@ -22,7 +22,10 @@ glido "Fix the mobile navigation alignment"
 
 ## Route every follow-up
 
+`glido` starts routed chat by default. Use `glido run` only when you want a one-time route followed by native Codex.
+
 ```bash
+glido
 glido chat "Build the settings page"
 ```
 
@@ -84,8 +87,8 @@ The private weekly dashboard gives you:
 ## Useful commands
 
 ```bash
-glido                             # Open the smart Codex launcher
-glido run                         # Explicit launcher command
+glido                             # Persistent routed chat (default)
+glido run                         # Route once, then open native Codex
 glido run "your task" --dry-run   # Preview only; do not launch Codex
 glido chat "Build the feature"    # Route each follow-up in one Codex thread
 glido run "Match this design" --image ./reference.png
