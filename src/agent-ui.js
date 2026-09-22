@@ -138,7 +138,7 @@ export function renderAgentView(view, { color = false, width = 80, selectedWorke
     for (const event of (view.events ?? []).slice(-MAX_EVENTS)) lines.push(`  ${paint.dim(clock(event.at))}  ${clip(event.text, width - 12)}`)
   }
   if (interactive) {
-    lines.push('', paint.dim(selected ? '[a] overview  [1-6] switch agent' : '[1-6] agent details  [l] recent activity'))
+    lines.push('', paint.dim(selected ? '[a] overview  [1-6] switch agent  [Esc] pause' : '[1-6] agent details  [l] recent activity  [Esc] pause'))
   }
   return lines.join('\n')
 }
@@ -170,7 +170,12 @@ export function createAgentRenderer({ run, output = process.stdout, input = proc
     }
     const workers = Object.values(current.workers ?? {}).slice(0, MAX_WORKERS)
     if (/^[1-6]$/.test(key) && workers[Number(key) - 1]) selectedWorker = workers[Number(key) - 1].id
-    else if (key.toLowerCase() === 'a' || key === '\u001b') selectedWorker = null
+    else if (key === '\u001b') {
+      suspendInput()
+      process.kill(process.pid, 'SIGINT')
+      return
+    }
+    else if (key.toLowerCase() === 'a') selectedWorker = null
     else if (key.toLowerCase() === 'l') showActivity = !showActivity
     else return
     draw()

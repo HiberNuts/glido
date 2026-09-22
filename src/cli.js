@@ -125,7 +125,8 @@ Each follow-up stays in the same local Codex thread, but Glido chooses a
 model and reasoning effort again. Chat starts immediately with your first
 message. Press Enter to send. Use /paste for a
 multi-line message, or /exit to leave. Use \`glido run\` when you want the
-native Codex TUI.
+native Codex TUI. Press Escape while Codex is working to pause that turn and
+keep the thread open.
 `
 }
 
@@ -726,6 +727,8 @@ async function runChat(options) {
   let interrupted = false
   let abortPrompt = null
   const completedTurns = []
+  let stopPauseListener = null
+  let paused = false
   const rememberCompletedTurn = (params) => {
     completedTurns.push(params)
     if (completedTurns.length > 20) completedTurns.shift()
@@ -737,6 +740,12 @@ async function runChat(options) {
     abortPrompt?.()
     try { if (active) await server.interrupt(active) } catch { /* The turn may have completed. */ }
   }
+  const pauseTurn = async () => {
+    if (!active || interrupted || paused) return
+    paused = true
+    process.stdout.write('\nPaused. Your Codex thread is kept; send the next message when ready.\n')
+    try { await server.interrupt(active) } catch { /* The turn may have completed. */ }
+  }
   server.on('notification', output.handle)
   server.on('turn/completed', rememberCompletedTurn)
   server.on('serverRequest', (request) => handleAgentServerRequest(server, request, null, options).catch((error) => server.respondError(request.id, error)))
@@ -747,7 +756,11 @@ async function runChat(options) {
     output.start(route)
     active = await server.startThread({ cwd, model: route.model, effort: route.effort, prompt: initialPrompt, images, maxAgents: 1 })
     server.request('account/rateLimits/read').then(output.rateLimits).catch(() => {})
-    if (!await finishChatTurn(server, active, completedTurns, route, () => interrupted)) return
+    stopPauseListener = listenForEscape(pauseTurn)
+    const initialFinished = await finishChatTurn(server, active, completedTurns, route, () => interrupted || paused)
+    stopPauseListener()
+    stopPauseListener = null
+    if (!initialFinished && interrupted) return
     while (!interrupted) {
       const followUp = await readChatFollowUp((abort) => { abortPrompt = abort }, output)
       if (/^\/(?:exit|quit)$/i.test(followUp)) break
@@ -758,9 +771,15 @@ async function runChat(options) {
       route = routePrompt(followUp, overrides)
       output.route(route)
       active = await server.startTurn({ threadId: active.threadId, cwd, model: route.model, effort: route.effort, prompt: followUp })
-      if (!await finishChatTurn(server, active, completedTurns, route, () => interrupted)) return
+      paused = false
+      stopPauseListener = listenForEscape(pauseTurn)
+      const finished = await finishChatTurn(server, active, completedTurns, route, () => interrupted || paused)
+      stopPauseListener()
+      stopPauseListener = null
+      if (!finished && interrupted) return
     }
   } finally {
+    stopPauseListener?.()
     process.off('SIGINT', onSignal)
     process.off('SIGTERM', onSignal)
     server.off('turn/completed', rememberCompletedTurn)
@@ -773,10 +792,31 @@ async function finishChatTurn(server, active, completedTurns, route, wasInterrup
   const started = Date.now()
   const completed = await waitForAgentTurn(server, active, completedTurns)
   const status = String(completed?.status ?? 'completed').toLowerCase()
-  await recordRoute(route, { launched: true, exitCode: status === 'completed' ? 0 : 1, durationMs: Date.now() - started })
-  if (status === 'interrupted' && wasInterrupted()) return false
+  const paused = status === 'interrupted' && wasInterrupted()
+  await recordRoute(route, { launched: true, exitCode: status === 'completed' || paused ? 0 : 1, durationMs: Date.now() - started })
+  if (paused) return false
   if (status !== 'completed') throw new Error(friendlyCodexError(completed?.error?.message ?? `Codex turn ${status}.`, classifyCodexError(completed?.error?.message)))
   return true
+}
+
+export function isEscapeKey(value) {
+  return String(value) === '\u001b'
+}
+
+function listenForEscape(onEscape, input = process.stdin) {
+  if (!input?.isTTY || typeof input.setRawMode !== 'function') return () => {}
+  const onData = (chunk) => {
+    if (String(chunk) === '\u0003') return process.kill(process.pid, 'SIGINT')
+    if (isEscapeKey(chunk)) void onEscape()
+  }
+  input.setRawMode(true)
+  input.resume()
+  input.on('data', onData)
+  return () => {
+    input.off('data', onData)
+    input.setRawMode(false)
+    input.pause()
+  }
 }
 
 async function readChatFollowUp(setAbort, output) {
@@ -1002,18 +1042,10 @@ function renderRouterHome(cwd, { color = true, clear = false } = {}) {
   const dim = (value) => color ? `\x1b[2m${value}\x1b[0m` : value
   const clearScreen = clear ? '\x1b[2J\x1b[H' : ''
   return `${clearScreen}
-╭────────────────────────────────────────────────────────────╮
-│                                                            │
-│   ${green(bold('glido'))}                                                    │
-│   ${dim('The smart launcher for Codex')}                               │
-│                                                            │
-╰────────────────────────────────────────────────────────────╯
+${green(bold('GLIDO'))}  ${dim('smart Codex routing')}
+${dim('Project')}  ${path.basename(cwd)}  ${dim('· automatic model + effort selection')}
 
-  ${dim('project')}  ${path.basename(cwd)}
-  ${dim('routing')}  automatic · model + reasoning effort
-
-  ${dim('Write naturally. Glido will improve the prompt, explain the route,')}
-  ${dim('and open the real Codex session after you approve it.')}
+${dim('Describe the task. Enter sends; use /paste for multiple lines. Review the route before Codex opens.')}
 `
 }
 

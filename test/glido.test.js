@@ -8,7 +8,7 @@ import test from 'node:test'
 import { fileURLToPath } from 'node:url'
 import { aiSafeSummary, analyzeSessions } from '../src/analyze.js'
 import { buildCoachingBundle, coachingPrompt } from '../src/coach.js'
-import { classifyCodexError, needsDoneCriteria, parseArgs, readPromptBlock, renderChatStatus, waitForAgentTurn } from '../src/cli.js'
+import { classifyCodexError, isEscapeKey, needsDoneCriteria, parseArgs, readPromptBlock, renderChatStatus, waitForAgentTurn } from '../src/cli.js'
 import { buildTurnInput, CodexAppServer } from '../src/app-server.js'
 import { calculateRoutingSavings, estimateCredits } from '../src/credits.js'
 import { serveDashboard, writeDashboard } from '../src/dashboard.js'
@@ -190,6 +190,11 @@ test('collects a multiline pasted prompt without losing lines', async () => {
   })
   assert.equal(prompt, 'Review production health\n- Check alerts\n- List slow APIs')
   assert.match(output.join(''), /multiple lines/i)
+})
+
+test('recognizes Escape without treating regular input as a pause', () => {
+  assert.equal(isEscapeKey('\u001b'), true)
+  assert.equal(isEscapeKey('a'), false)
 })
 
 test('only asks for explicit completion criteria when a goal is vague', () => {

@@ -1,7 +1,7 @@
 {
   "name": "glido",
   "description": "Private Codex routing, multi-agent goals, and session coaching.",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "author": {
     "name": "Raghav Jindal"
   },

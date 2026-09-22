@@ -29,7 +29,8 @@ glido chat "Build the settings page"
 `glido chat` keeps one local Codex thread open. After every completed response,
 write the next instruction and Glido routes that turn again while preserving the
 thread context. It starts immediately with your exact first message; press Enter
-to send, use `/paste` for multiple lines, or type `/exit` to leave. Use `glido run`
+to send, use `/paste` for multiple lines, press Escape to pause the current turn,
+or type `/exit` to leave. Use `glido run`
 when you want to review an improved prompt before opening native Codex instead.
 
 ```text
@@ -51,7 +52,7 @@ glido agent "Build organization-based authentication" --done "Users can sign in,
 
 Agent mode starts one master Codex thread. It inspects the repository, sets a small plan, delegates independent work to native Codex subagents, integrates their changes, and verifies the definition of done. The live terminal view shows overall progress, how many agents were spawned, each agent's task and current activity, approvals, and the final result—without thread IDs, internal reasoning, or token telemetry.
 
-While a run is active, press `1` through `6` to open a worker's detail view, `a` or Escape to return to the overview, and `l` to toggle recent activity. The activity view uses concise descriptions such as “Inspecting the project” or “Running checks”; it does not expose reasoning or command output.
+While a run is active, press `1` through `6` to open a worker's detail view, `a` to return to the overview, `l` to toggle recent activity, or Escape to pause and save the run for later resume. The activity view uses concise descriptions such as “Inspecting the project” or “Running checks”; it does not expose reasoning or command output.
 
 ```bash
 glido agent                         # Ask for a goal; infer completion criteria when clear
@@ -63,7 +64,7 @@ glido agent resume [run-id]         # Continue an interrupted run
 glido agent cancel [run-id]         # Cancel a saved inactive run
 ```
 
-Agent mode uses three workers at most by default; choose `--max-agents 1` through `6` when needed. It deliberately assigns exclusive ownership for parallel writes and may use no workers for a task that cannot safely benefit from parallelism. Press Ctrl+C to interrupt a live run; resume it later from its saved run record.
+Agent mode uses three workers at most by default; choose `--max-agents 1` through `6` when needed. It deliberately assigns exclusive ownership for parallel writes and may use no workers for a task that cannot safely benefit from parallelism. Press Escape or Ctrl+C to pause a live run; resume it later from its saved run record.
 
 If a routed model is unavailable on the user's Codex plan, Glido offers to retry with the user's own Codex default model. Usage and rate limits are reported as resumable blocked runs instead of failed work.
 
